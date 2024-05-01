@@ -1,28 +1,27 @@
 import os
 
+# Importing the custom classes for managing, scraping links, and scraping text from Unreal Engine forums
 from UnrealDataManager import UnrealDataManager
 from UnrealLinkScraper import UnrealLinkScraper
 from UnrealTextScraper import UnrealTextScraper
 
+# Instantiate the scraper and manager objects
 link_scraper = UnrealLinkScraper()
 post_scraper = UnrealTextScraper()
 data_manager = UnrealDataManager()
 
-# input validation
-
-# method used to verify user input is within the range either passed in or by default [1 to 5]
-# prompts user to enter a valid number if the input is not within the range, or if the input is not a number
-# returns the user input if it is valid, which is later used to determine the action to take
-
-# Parameters:
-# l_lim (int) - lower limit of the range (default 1)
-# t_lim (int) - upper limit of the range (default 5)
-
-# Returns:
-# user_c_input (int) - user input number if it is valid
-
-
 def input_validation(l_lim=1, t_lim=5):
+    """ Input validation function
+    Verifies user input is within a specified range, defaults to 1-5
+    Repeatedly prompts the user until a valid integer within the range is provided
+
+    # Parameters:
+    l_lim (int): The lower limit of the range, defaults to 1
+    t_lim (int): The upper limit of the range, defaults to 5
+
+    Returns: user_c_input (int): Validated user input
+    """
+
     while True:
         try:
             user_c_input = int(input("Enter your choice: "))
@@ -34,12 +33,22 @@ def input_validation(l_lim=1, t_lim=5):
         except ValueError:
             print("Please enter a valid number from " + str(l_lim) + " to " + str(t_lim))
 
-def scrape_b_forum_posts():
-    print("Note: there is a 10 000 forum scraping limit (for each category)\n")
 
+def scrape_b_forum_posts():
+
+    """Function to scrape bulk forum posts
+    Prompts the user for the number of posts to scrape from different categories
+    Uses the UnrealLinkScraper to fetch links and UnrealTextScraper to scrape posts
+    Saves the scraped data to a CSV file through UnrealDataManager
+    """
+
+    print("Note: there is a 10,000 forum scraping limit (for each category)\n")
+
+    # Get user inputs for different forum categories with limits
     print("How many forum posts would you like to scrape for the General category (max 10000)?")
     general_limit = input_validation(0, 10000)
 
+    # Repeat for other categories
     print("How many forum posts would you like to scrape for the Development category?")
     development_limit = input_validation(0, 10000)
 
@@ -52,6 +61,7 @@ def scrape_b_forum_posts():
     print("How many forum posts would you like to scrape for the Legacy category?")
     legacy_limit = input_validation(0, 10000)
 
+    # Instantiate a new UnrealLinkScraper with category limits
     link_scraper = UnrealLinkScraper({
         "general": general_limit,
         "development": development_limit,
@@ -72,17 +82,21 @@ def scrape_b_forum_posts():
     data_manager.save_data("bulk", "bulk")
     print("Data has been scraped and saved to a CSV file\n")
 
-
+#
 def scrape_s_forum_posts():
+    """
+    Function to scrape specific forum posts
+    Prompts the user to enter links to specific forum posts
+    Scrapes the posts and saves the data to a named CSV file
+    """
+
     print("Please enter the number of posts you would like to scrape (1-10000):")
     single_forum_scrapes = input_validation(1, 10000)
 
     input_link_list = []
     for i in range(single_forum_scrapes):
-
         while True:
             input_link = input("\bPlease enter the link to the forum post you would like to scrape: ")
-
             if "https://forums.unrealengine.com/" not in input_link:
                 print("Please enter a valid link\n")
                 continue
@@ -101,6 +115,12 @@ def scrape_s_forum_posts():
 
 
 def delete_csv_file():
+    """
+     Function to delete a CSV file
+     Lists all CSV files in the specified directories and allows the user to choose one for deletion
+    """
+
+
     directories = [
         "output/bulk/",
         "output/specific/"
@@ -108,6 +128,7 @@ def delete_csv_file():
 
     all_files = []
 
+    # Collect all CSV files from the specified directories
     for directory in directories:
         all_files.extend([os.path.join(directory, f) for f in os.listdir(directory) if f.endswith(".csv")])
 
@@ -124,10 +145,10 @@ def delete_csv_file():
         print("File has been deleted\n")
 
     except ValueError:
-        print("Error!, please try again")
+        print("Error! Please try again")
         return
 
-
+# Main program loop
 while True:
 
     print("\nHello!, welcome to the Unreal Engine Forum Scraper\n")
