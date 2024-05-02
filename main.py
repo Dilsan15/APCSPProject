@@ -10,30 +10,8 @@ link_scraper = UnrealLinkScraper()
 post_scraper = UnrealTextScraper()
 data_manager = UnrealDataManager()
 
-def input_validation(l_lim=1, t_lim=5):
-    """ Input validation function
-    Verifies user input is within a specified range, defaults to 1-5
-    Repeatedly prompts the user until a valid integer within the range is provided
 
-    # Parameters:
-    l_lim (int): The lower limit of the range, defaults to 1
-    t_lim (int): The upper limit of the range, defaults to 5
-
-    Returns: user_c_input (int): Validated user input
-    """
-
-    while True:
-        try:
-            user_c_input = int(input("Enter your choice: "))
-            if user_c_input in range(l_lim, t_lim + 1):
-                print("\n")
-                return user_c_input
-            else:
-                print("Please enter a valid number from " + str(l_lim) + " to " + str(t_lim))
-        except ValueError:
-            print("Please enter a valid number from " + str(l_lim) + " to " + str(t_lim))
-
-
+# Processing ---------------------------------------------------------------------
 def scrape_b_forum_posts():
 
     """Function to scrape bulk forum posts
@@ -147,6 +125,32 @@ def delete_csv_file():
     except ValueError:
         print("Error! Please try again")
         return
+
+# Input ---------------------------------------------------------------------
+def input_validation(l_lim=1, t_lim=5):
+    """ Input validation function
+    Verifies user input is within a specified range, defaults to 1-5
+    Repeatedly prompts the user until a valid integer within the range is provided
+
+    # Parameters:
+    l_lim (int): The lower limit of the range, defaults to 1
+    t_lim (int): The upper limit of the range, defaults to 5
+
+    Returns: user_c_input (int): Validated user input
+    """
+
+    while True:
+        try:
+            user_c_input = int(input("Enter your choice: "))
+            if user_c_input in range(l_lim, t_lim + 1):
+                print("\n")
+                return user_c_input
+            else:
+                print("Please enter a valid number from " + str(l_lim) + " to " + str(t_lim))
+        except ValueError:
+            print("Please enter a valid number from " + str(l_lim) + " to " + str(t_lim))
+
+
 
 # Main program loop
 while True:
