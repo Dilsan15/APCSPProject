@@ -11,6 +11,7 @@ class UnrealTextScraper:
         self.driver = None
         self.post_data = {}
 
+    # setter
     # Method to set the links for scraping
     def set_links(self, links):
         self.links_scrape = links
@@ -43,6 +44,7 @@ class UnrealTextScraper:
         self.driver.close()
 
     # Method to scrape the main post data
+    # Processing
     def scrape_post(self):
         # Extracting various data from the post using specific CSS class names
         post_title = self.driver.find_element(By.CLASS_NAME, "fancy-title").text
@@ -100,5 +102,7 @@ class UnrealTextScraper:
         self.post_data["reply data"] = list({v['post text']: v for v in self.post_data["reply data"]}.values())
 
     # Method to retrieve all scraped data
+
+    #output
     def get_data(self):
         return self.all_data

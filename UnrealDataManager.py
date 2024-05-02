@@ -7,7 +7,7 @@ class UnrealDataManager:
         # Initializes the UnrealDataManager with no data
         self.all_data = None
 
-
+    # Setter
     def set_data(self, all_data):
         """Method to set the data inside the manager
             Parameter:
@@ -15,7 +15,7 @@ class UnrealDataManager:
         """
         self.all_data = all_data
 
-    #
+    # Ouput
     def save_data(self, title, save_type):
         """
         Method to save the managed data to a CSV file
